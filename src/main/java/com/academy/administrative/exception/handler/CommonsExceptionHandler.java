@@ -11,7 +11,14 @@ public class CommonsExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> illegalArgumentExceptionHandler(Exception e){
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        return generateCommonExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    private ResponseEntity<Object> generateCommonExceptionResponse(String msg, HttpStatus httpStatus){
+        ExceptionBodyResponse exceptionBodyResponse = new ExceptionBodyResponse();
+        exceptionBodyResponse.setErrorCode(9999);
+        exceptionBodyResponse.setMessage(msg);
+
+        return new ResponseEntity<>(exceptionBodyResponse, httpStatus);
+    }
 }
